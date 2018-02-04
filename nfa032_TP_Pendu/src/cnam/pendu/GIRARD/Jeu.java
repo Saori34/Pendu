@@ -1,5 +1,7 @@
 package cnam.pendu.GIRARD;
 
+import java.io.File;
+
 /**
  * Classe Jeu qui contient la méthode main pour effectuer une partie de pendu
  * 
@@ -9,8 +11,19 @@ package cnam.pendu.GIRARD;
 public class Jeu {
 
 	
+
+	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
+	
+		//Chemin fichier
+		File file = new File(".assets/dictionnaire.txt");
+		RegleDuJeu jeu = new RegleDuJeu();
+		
+		jeu.nbEssaisAutorises(jeu.initialisation(file));
+		System.out.println("mot : " + jeu.getMotATrouver() + " essais : " + jeu.getNbEssais());
+		
+		
 
 	}
 
