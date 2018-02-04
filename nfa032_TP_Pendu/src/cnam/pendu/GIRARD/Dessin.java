@@ -10,7 +10,7 @@ package cnam.pendu.GIRARD;
 public class Dessin {
 
 	//Tableau à double dimension pour le dessin du pendu
-	char[][] dessin = 
+	private char[][] dessin = 
 			{{' ', ' ', '_', '_', '_', '_', '_'},
 			{' ', ' ', '|', '/', ' ', ' ', '|', ' '},
 			{' ', ' ', '|', ' ', ' ', ' ', 'O', ' '},
@@ -19,7 +19,7 @@ public class Dessin {
 	
 	
 	//Tableau à double dimension por l'ordre d'apparition de chaque élément
-	int[][] ordreDessin = 
+	private int[][] ordreDessin = 
 					{{0, 0, 13, 14, 15, 16},
 					{0, 0, 12, 17, 0 , 0, 18},
 					{0, 0, 11, 0, 0, 0, 19},
@@ -30,6 +30,34 @@ public class Dessin {
 	
 	//Constante
 	private final int NOMBREMAXELEMENT = 25;
+
+
+		
+	//GETTERS AND SETTERS
+	
+	/**
+	 * @return the dessin
+	 */
+	public char[][] getDessin() {
+		return dessin;
+	}
+
+
+	/**
+	 * @return the ordreDessin
+	 */
+	public int[][] getOrdreDessin() {
+		return ordreDessin;
+	}
+
+
+	/**
+	 * @return the nOMBREMAXELEMENT
+	 */
+	public int getNOMBREMAXELEMENT() {
+		return NOMBREMAXELEMENT;
+	}
+
 	
 	
 	

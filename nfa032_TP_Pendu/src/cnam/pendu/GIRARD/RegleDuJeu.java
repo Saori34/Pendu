@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -30,6 +31,9 @@ public class RegleDuJeu {
 	
 	//Tableau de booleens pour les lettres trouvées
 	private boolean[] lTrouvees;
+	
+	//Tableau de char pour les lettres déjà proposées
+	private ArrayList<Character> lettresProposees = new ArrayList<>();
 	
 	
 	public RegleDuJeu(){
@@ -100,6 +104,13 @@ public class RegleDuJeu {
 	public void setlTrouvees(boolean[] lTrouvees) {
 		this.lTrouvees = lTrouvees;
 	}
+	
+	/*
+	 * @return arrayList lettresProposees
+	 */
+	public ArrayList<Character> getLettresProposees(){
+		return lettresProposees;
+	}
 
 	
 	//METHODES
@@ -137,24 +148,27 @@ public class RegleDuJeu {
 	/*
 	 * Renvoie un boolean pour indiquer si oui ou non le caractere appartient au mot recherché. Doit modifier l'état du tableau représentant le mot à trou
 	 * @param lettre : lettre testée par l'utilisateur
+	 * @return un boolean true si la lettre est présente
 	 */
-	public boolean[] chercheLettre(char lettre) {
-		//TODO 
-		char[] tabMot = motATrouver.toCharArray();
+	public boolean chercheLettre(char lettre) {
+		boolean ok = false;
+		char[]tabMot = motATrouver.toCharArray();
+		//plutot que d'utiliser une méthode de la classe String comme indexOf(), on préfèrera chercher case par case pour être sûrs de trouver toutes les occurences de lettres
 		for(int i = 0; i<tabMot.length; i++) {
-				if(lettre == tabMot[i]) {
-					lTrouvees[i] = true;
-				}
-				else {
-					lTrouvees[i] = false;
-				}
+			if(tabMot[i] == lettre) {
+				lTrouvees[i] = true;
+				ok = true;
+			}
+			else {
+				lTrouvees[i] = false;
+			}
 		}
-			
-		return lTrouvees;
+		return ok;
 	}
 	
 	/*
 	 * Teste toutes les lettres pour savoir si oui ou non on a les toutes trouvées et si on a gagné
+	 * @return un booleen true si on a trouvé toutes les lettres
 	 */
 	public boolean gagne() {
 		
@@ -176,6 +190,51 @@ public class RegleDuJeu {
 		//TODO recupére le flux de caractere à tester, effectue un tour de jeu, affiche le mot à trous puis demande au joueur 
 		//d'entrer un catactere pour le completer, puis elle teste la presence du caractere dans le mot puis teste la fin du jeu, un message est affiche si la partie est gagnée ou perdue
 		// retourne true si le jeu continu et false si le jeu s'arrete (gagné ou perdu)
+		
+		//On récupère la saisie utilisateur
+		String tmp = "";
+		char lettre;
+		
+		//On affiche le mot
+		this.afficherMot();
+		
+		//On demande à l'utilisateur de donner une lettre à tester
+		System.out.println("Veuillez saisir une lettre à tester");
+		
+		//On récupère la saisie utilisateur en vérifiant s'il s'agit bien de lettres
+		do {
+			do {
+				tmp = sc.nextLine();
+				tmp = tmp.toUpperCase();
+				if(!tmp.matches("^[A-Z]")) {
+					System.err.println("Vous devez saisir une lettre !");
+				}
+			}while(!tmp.matches("^[A-Z]"));//tant qu'il ne s'agit pas de lettre on recommence la boucle
+			
+			//On récupère uniquement la première lettre (si la chaine est plus longue)
+			lettre = tmp.charAt(0);
+			
+			
+		}while(this.lettreProposee(lettre));//on refait la boucle tant que la lettre a déjà été proposée
+		
+		//On teste si la lettre est présente
+		if(!this.chercheLettre(lettre)) {
+			System.out.println("Désolé cette lettre ne fait pas partie de ce mot");
+		}
+		else {
+			this.afficherMot();
+			System.out.println("Bravo ! Vous avez trouvé une lettre !");
+			
+		}
+		//On ajoute la lettre à la liste de lettres deja proposées
+		lettresProposees.add(lettre);
+		
+		//On teste si on a gagné la partie
+		if(this.gagne()) {
+			System.out.println("Bravo ! Vous avez trouvé le mot !");
+			return false;
+		}
+		
 		return true;
 	}
 	
@@ -236,6 +295,26 @@ public class RegleDuJeu {
 					nbEssais = 13;
 				return nbEssais;
 	}
+	
+	/*
+	 * On vérifie si la lettre proposé par l'utilisateur a déjà été proposée{
+	 * @param char[] lettresProp les lettres déjà testées
+	 * @param char la lettre actuellement proposée
+	 * @return true si la lettre a déjà été proposée
+	 */
+	public boolean lettreProposee(char lettre) {
+		ArrayList<Character> lettresProp = this.getLettresProposees();
+		Iterator <Character> it = lettresProp.iterator();
+		if(!lettresProp.isEmpty()) {
+			while(it.hasNext()) {
+				if(it.next() == lettre)
+					System.err.println("Vous avez déjà testé cette lettre, veuillez en saisir une autre");
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	
 	
 	

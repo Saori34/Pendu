@@ -1,6 +1,7 @@
 package cnam.pendu.GIRARD;
 
 import java.io.File;
+import java.util.Scanner;
 
 /**
  * Classe Jeu qui contient la méthode main pour effectuer une partie de pendu
@@ -10,7 +11,8 @@ import java.io.File;
  */
 public class Jeu {
 
-	
+	private static String motATrouver;
+	private static int nbEssais;
 
 	
 	public static void main(String[] args) {
@@ -18,10 +20,18 @@ public class Jeu {
 	
 		//Chemin fichier
 		File file = new File(".assets/dictionnaire.txt");
-		RegleDuJeu jeu = new RegleDuJeu();
 		
-		jeu.nbEssaisAutorises(jeu.initialisation(file));
-		System.out.println("mot : " + jeu.getMotATrouver() + " essais : " + jeu.getNbEssais());
+		//On initialise le mot à trouver avec le dictionnaire
+		motATrouver = RegleDuJeu.initialisation(file);
+		
+		//On initialise le nb d'essais avec le mot à trouver
+		nbEssais = RegleDuJeu.nbEssaisAutorises(motATrouver);
+		
+		//On initialise une nouvelle partie
+		RegleDuJeu partie = new RegleDuJeu(motATrouver, nbEssais);
+		
+		//On ouvre un nouveau flux entrant;
+		Scanner sc = new Scanner(System.in);
 		
 		
 
