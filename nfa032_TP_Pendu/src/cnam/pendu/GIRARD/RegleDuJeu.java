@@ -133,7 +133,7 @@ public class RegleDuJeu {
 	/*
 	 * Affiche le mot à trous selon l'état d'avancement de la partie, donc selon le tableau de boolean
 	 */
-	public void afficherMot() {
+	public void afficherMot(boolean[]lTrouvees) {
 		
 		for(int i = 0; i<lTrouvees.length; i++) {
 			if(lTrouvees[i]) {
@@ -196,10 +196,10 @@ public class RegleDuJeu {
 		char lettre;
 		
 		//On affiche le mot
-		this.afficherMot();
+		this.afficherMot(this.getlTrouvees());
 		
 		//On demande à l'utilisateur de donner une lettre à tester
-		System.out.println("Veuillez saisir une lettre à tester");
+		System.out.println("\nVeuillez saisir une lettre à tester");
 		
 		//On récupère la saisie utilisateur en vérifiant s'il s'agit bien de lettres
 		do {
@@ -207,7 +207,7 @@ public class RegleDuJeu {
 				tmp = sc.nextLine();
 				tmp = tmp.toUpperCase();
 				if(!tmp.matches("^[A-Z]")) {
-					System.err.println("Vous devez saisir une lettre !");
+					System.err.println("\nVous devez saisir une lettre !");
 				}
 			}while(!tmp.matches("^[A-Z]"));//tant qu'il ne s'agit pas de lettre on recommence la boucle
 			
@@ -219,11 +219,11 @@ public class RegleDuJeu {
 		
 		//On teste si la lettre est présente
 		if(!this.chercheLettre(lettre)) {
-			System.out.println("Désolé cette lettre ne fait pas partie de ce mot");
+			System.out.println("\nDésolé cette lettre ne fait pas partie de ce mot");
 		}
 		else {
-			this.afficherMot();
-			System.out.println("Bravo ! Vous avez trouvé une lettre !");
+			this.afficherMot(this.getlTrouvees());
+			System.out.println("\nBravo ! Vous avez trouvé une lettre !");
 			
 		}
 		//On ajoute la lettre à la liste de lettres deja proposées
@@ -231,7 +231,7 @@ public class RegleDuJeu {
 		
 		//On teste si on a gagné la partie
 		if(this.gagne()) {
-			System.out.println("Bravo ! Vous avez trouvé le mot !");
+			System.out.println("\nBravo ! Vous avez trouvé le mot !");
 			return false;
 		}
 		
@@ -307,9 +307,10 @@ public class RegleDuJeu {
 		Iterator <Character> it = lettresProp.iterator();
 		if(!lettresProp.isEmpty()) {
 			while(it.hasNext()) {
-				if(it.next() == lettre)
+				if(it.next() == lettre) {
 					System.err.println("Vous avez déjà testé cette lettre, veuillez en saisir une autre");
-				return true;
+					return true;
+				}
 			}
 		}
 		return false;

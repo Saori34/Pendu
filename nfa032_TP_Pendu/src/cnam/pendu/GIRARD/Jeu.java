@@ -33,6 +33,9 @@ public class Jeu {
 		//On ouvre un nouveau flux entrant;
 		Scanner sc = new Scanner(System.in);
 		
+		do{
+			partie.jouer(sc);
+		}while(partie.jouer(sc));
 		
 
 	}
