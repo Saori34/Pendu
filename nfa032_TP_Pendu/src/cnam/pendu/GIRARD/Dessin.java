@@ -10,27 +10,28 @@ package cnam.pendu.GIRARD;
 public class Dessin {
 
 	//Tableau à double dimension pour le dessin du pendu
-	private char[][] dessin = 
+	static private char[][] dessin = 
 			{{' ', ' ', '_', '_', '_', '_', '_'},
-			{' ', ' ', '|', '/', ' ', ' ', '|', ' '},
-			{' ', ' ', '|', ' ', ' ', ' ', 'O', ' '},
+			{' ', ' ', '|', '/', ' ', ' ', '|'},
+			{' ', ' ', '|', ' ', ' ', ' ', 'O'},
 			{' ', ' ', '|', ' ', ' ', '/', '|', '\\'},
 			{' ', ' ', '|', ' ', ' ', '/', ' ', '\\'},
 			{'_', '_', '|', '_', '_', '_', '_', '_'}};
 	
 	
 	//Tableau à double dimension por l'ordre d'apparition de chaque élément
-	private int[][] ordreDessin = 
-					{{0, 0, 13, 14, 15, 16},
-					{0, 0, 12, 17, 0 , 0, 18},
-					{0, 0, 11, 0, 0, 0, 19},
-					{0, 0, 10, 0, 0, 21, 20, 22},
-					{0, 0, 9, 0, 0, 23, 0, 24},
+	static private int[][] ordreDessin = 
+					{{0, 0, 13, 14, 15, 16, 17},
+					{0, 0, 12, 18, 0, 0, 19},
+					{0, 0, 11, 0, 0, 0, 20},
+					{0, 0, 10, 0, 0, 22, 21, 23},
+					{0, 0, 9, 0, 0, 24, 0, 25},
 					{1, 2, 8, 3, 4, 5, 6, 7}};
 	
-	
+		
+			
 	//Constante
-	private final int NOMBREMAXELEMENT = 25;
+	static private final int NOMBREMAXELEMENT = 25;
 
 
 		
@@ -39,7 +40,7 @@ public class Dessin {
 	/**
 	 * @return the dessin
 	 */
-	public char[][] getDessin() {
+	public static char[][] getDessin() {
 		return dessin;
 	}
 
@@ -47,7 +48,7 @@ public class Dessin {
 	/**
 	 * @return the ordreDessin
 	 */
-	public int[][] getOrdreDessin() {
+	public static int[][] getOrdreDessin() {
 		return ordreDessin;
 	}
 
@@ -55,7 +56,7 @@ public class Dessin {
 	/**
 	 * @return the nOMBREMAXELEMENT
 	 */
-	public int getNOMBREMAXELEMENT() {
+	public static int getNOMBREMAXELEMENT() {
 		return NOMBREMAXELEMENT;
 	}
 

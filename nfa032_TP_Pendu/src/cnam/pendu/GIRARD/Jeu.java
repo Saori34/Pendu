@@ -13,6 +13,8 @@ public class Jeu {
 
 	private static String motATrouver;
 	private static int nbEssais;
+	private static boolean continuer = false;
+	private static char reponse = ' ';
 
 	
 	public static void main(String[] args) {
@@ -21,23 +23,42 @@ public class Jeu {
 		//Chemin fichier
 		File file = new File(".assets/dictionnaire.txt");
 		
-		//On initialise le mot à trouver avec le dictionnaire
-		motATrouver = RegleDuJeu.initialisation(file);
-		
-		//On initialise le nb d'essais avec le mot à trouver
-		nbEssais = RegleDuJeu.nbEssaisAutorises(motATrouver);
-		
-		//On initialise une nouvelle partie
-		RegleDuJeu partie = new RegleDuJeu(motATrouver, nbEssais);
-		
 		//On ouvre un nouveau flux entrant;
 		Scanner sc = new Scanner(System.in);
 		
-		do{
-			partie.jouer(sc);
-		}while(partie.jouer(sc));
+		System.out.println("\n\n---------------JEU DU PENDU---------------\n\n");
 		
-
+		
+		do {
+			//On initialise le mot à trouver avec le dictionnaire
+			motATrouver = RegleDuJeu.initialisation(file);
+			
+			//On initialise le nb d'essais avec le mot à trouver
+			nbEssais = RegleDuJeu.nbEssaisAutorises(motATrouver);
+			
+			//On initialise une nouvelle partie
+			RegleDuJeu partie = new RegleDuJeu(motATrouver, nbEssais);
+			
+				do{
+					partie.jouer(sc);
+				}while(partie.jouer(sc));
+				
+			System.out.println("\n\nFIN DE LA PARTIE");
+			
+			
+			//On propose de recommencer une partie
+			while(reponse != 'Y' && reponse != 'N') {
+				System.out.println("Voulez-vous refaire une partie ? Y/N");
+				reponse = sc.nextLine().toUpperCase().charAt(0);
+				if(reponse == 'Y') {
+					continuer = true;
+				}
+			}
+			
+		}while(continuer);
+		
+		sc.close();
+		System.exit(0);
 	}
 
 }
