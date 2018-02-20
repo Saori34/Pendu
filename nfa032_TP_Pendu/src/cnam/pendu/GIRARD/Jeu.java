@@ -15,6 +15,7 @@ public class Jeu {
 	private static int nbEssais;
 	private static boolean continuer = false;
 	private static char reponse = ' ';
+	private static boolean boolPartie;
 
 	
 	public static void main(String[] args) {
@@ -30,6 +31,8 @@ public class Jeu {
 		
 		
 		do {
+			boolPartie = true;
+			
 			//On initialise le mot à trouver avec le dictionnaire
 			motATrouver = RegleDuJeu.initialisation(file);
 			
@@ -39,9 +42,10 @@ public class Jeu {
 			//On initialise une nouvelle partie
 			RegleDuJeu partie = new RegleDuJeu(motATrouver, nbEssais);
 			
-				do{
-					partie.jouer(sc);
-				}while(partie.jouer(sc));
+				//on relance un tour de jeu tant que le boolean est à true
+				while(boolPartie) {
+					boolPartie = partie.jouer(sc);
+				}
 				
 			System.out.println("\n\nFIN DE LA PARTIE");
 			

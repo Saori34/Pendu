@@ -219,6 +219,10 @@ public class RegleDuJeu {
 		}
 	}
 	
+	
+	/*
+	 * 
+	 */
 	public boolean jouer(Scanner sc) {
 		//TODO recupére le flux de caractere à tester, effectue un tour de jeu, affiche le mot à trous puis demande au joueur 
 		//d'entrer un catactere pour le completer, puis elle teste la presence du caractere dans le mot puis teste la fin du jeu, un message est affiche si la partie est gagnée ou perdue
@@ -252,7 +256,7 @@ public class RegleDuJeu {
 		}while(this.lettreProposee(lettre));//on refait la boucle tant que la lettre a déjà été proposée
 		
 		//On ajoute la lettre à la liste de lettres deja proposées
-				lettresProposees.add(lettre);
+		lettresProposees.add(lettre);
 				
 		//On teste si la lettre est présente
 		if(!this.chercheLettre(lettre)) {
@@ -265,8 +269,11 @@ public class RegleDuJeu {
 				System.out.println("Le mot à trouver était : " + motATrouver);
 				jouer = false;
 			}
-			System.out.println("\nDésolé cette lettre ne fait pas partie de ce mot");
-			System.out.println("Nombre d'essais restants : " + (nbEssais-nbErreurs));
+			else{
+				System.out.println("\nDésolé cette lettre ne fait pas partie de ce mot");
+				System.out.println("Nombre d'essais restants : " + (nbEssais-nbErreurs));
+			}
+			
 		}
 		
 		else {
@@ -276,6 +283,7 @@ public class RegleDuJeu {
 			}
 			else {//sinon on affiche qu'on a gagné la partie
 				System.out.println("\nGAGNE ! Vous avez trouvé le mot !");
+				System.out.println(motATrouver);
 				jouer = false;
 			}
 		}
