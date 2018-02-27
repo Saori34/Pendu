@@ -16,6 +16,8 @@ public class Jeu {
 	private static boolean continuer = false;
 	private static char reponse = ' ';
 	private static boolean boolPartie;
+	public static int score;
+	private static int nbParties;
 
 	
 	public static void main(String[] args) {
@@ -29,9 +31,12 @@ public class Jeu {
 		
 		System.out.println("\n\n---------------JEU DU PENDU---------------\n\n");
 		
+		score = 0;
+		nbParties = 1;
+		
 		
 		do {
-			boolPartie = true;
+			boolPartie = false;
 			
 			//On initialise le mot à trouver avec le dictionnaire
 			motATrouver = RegleDuJeu.initialisation(file);
@@ -42,22 +47,29 @@ public class Jeu {
 			//On initialise une nouvelle partie
 			RegleDuJeu partie = new RegleDuJeu(motATrouver, nbEssais);
 			
-				//on relance un tour de jeu tant que le boolean est à true
-				while(boolPartie) {
-					boolPartie = partie.jouer(sc);
-				}
-				
-			System.out.println("\n\nFIN DE LA PARTIE");
+			System.out.println("\n-----PARTIE " + nbParties + "-----\n");
 			
+				//on relance un tour de jeu tant que le boolean est à true
+				do {
+					boolPartie = partie.jouer(sc);
+				}while(boolPartie);
+					
+				
+			System.out.println("\n\nFIN DE LA PARTIE ----- Score : " + score + "/" + nbParties);
+			
+			nbParties++;
 			
 			//On propose de recommencer une partie
-			while(reponse != 'Y' && reponse != 'N') {
-				System.out.println("Voulez-vous refaire une partie ? Y/N");
+			do {
+				System.out.println("\nVoulez-vous refaire une partie ? Y/N");
 				reponse = sc.nextLine().toUpperCase().charAt(0);
-				if(reponse == 'Y') {
+				if(reponse == 'Y') 
 					continuer = true;
-				}
-			}
+				else if(reponse == 'N')
+					continuer = false;
+				else
+					System.err.println("Veuillez choisir Y pour oui et N pour non\n");
+			}while(reponse != 'Y' && reponse != 'N');
 			
 		}while(continuer);
 		

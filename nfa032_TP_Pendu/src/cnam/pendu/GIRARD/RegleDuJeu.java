@@ -120,7 +120,7 @@ public class RegleDuJeu {
 	 * Affiche un certain nombre de traits pour le dessin du pendu
 	 */
 	public void afficher(int nbTraits) {
-		System.out.println("\n");
+		
 		int [][] ordreDessin = Dessin.getOrdreDessin();
 		char [][] dessin = Dessin.getDessin();
 		boolean trouve = false;
@@ -152,11 +152,10 @@ public class RegleDuJeu {
 		int nbTraits = 1;
 		
 		//si on a autant d'erreurs que d'essais (donc le jeu est perdu) alors on affiche aussi le reste de la division (modulo) pour complémenter le dessin
-		if(nbErreurs == nbEssais) {
+		if(nbErreurs == nbEssais) 
 			nbTraits = (Dessin.getNOMBREMAXELEMENT() / nbEssais) * nbErreurs + (Dessin.getNOMBREMAXELEMENT() % nbEssais);
-		}
-		
-		nbTraits = (Dessin.getNOMBREMAXELEMENT() / nbEssais) * nbErreurs;
+		else
+			nbTraits = (Dessin.getNOMBREMAXELEMENT() / nbEssais) * nbErreurs;
 		
 		
 		this.afficher(nbTraits);
@@ -168,7 +167,6 @@ public class RegleDuJeu {
 	 */
 	public void afficherMot(boolean[]lTrouvees) {
 		
-		System.out.println("");
 		for(int i = 0; i<lTrouvees.length; i++) {
 			if(lTrouvees[i]) {
 				System.out.print(motATrouver.charAt(i));
@@ -176,6 +174,7 @@ public class RegleDuJeu {
 			else {
 				System.out.print("_");
 			}
+			System.out.print(" ");
 		}
 		System.out.println("");
 	}
@@ -221,23 +220,23 @@ public class RegleDuJeu {
 	
 	
 	/*
-	 * 
+	 * recupére le flux de caractere à tester, effectue un tour de jeu, affiche le mot à trous puis demande au joueur 
+	 * d'entrer un catactere pour le completer, puis elle teste la presence du caractere dans le mot puis teste la fin du jeu, un message est affiche si la partie est gagnée ou perdue
+	 * @return true si le jeu continue, false si le jeu s'arrete (gagné ou perdu)
 	 */
 	public boolean jouer(Scanner sc) {
-		//TODO recupére le flux de caractere à tester, effectue un tour de jeu, affiche le mot à trous puis demande au joueur 
-		//d'entrer un catactere pour le completer, puis elle teste la presence du caractere dans le mot puis teste la fin du jeu, un message est affiche si la partie est gagnée ou perdue
-		// retourne true si le jeu continu et false si le jeu s'arrete (gagné ou perdu)
+		
 		boolean jouer = true;
-		//On récupère la saisie utilisateur
 		String tmp = "";
 		char lettre;
 		
 		//On affiche le mot
+		System.out.print("Mot a trouver : ");
 		this.afficherMot(this.getlTrouvees());
 		
-	
+		
 		//On demande à l'utilisateur de donner une lettre à tester
-		System.out.println("\n\nVeuillez saisir une lettre à tester");
+		System.out.println("\n\nVeuillez saisir une lettre");
 		
 		//On récupère la saisie utilisateur en vérifiant s'il s'agit bien de lettres
 		do {
@@ -262,28 +261,31 @@ public class RegleDuJeu {
 		if(!this.chercheLettre(lettre)) {
 			nbErreurs++;
 			System.out.println("");
-			this.afficher(nbEssais, nbErreurs);
 			//Si on a utilisé tous les essais on a perdu
 			if(nbErreurs == nbEssais) {
+				this.afficher(nbEssais, nbErreurs);
 				System.out.println("\nPERDU !! \nVous avez atteint le nombre d'essais maximum !\n");
 				System.out.println("Le mot à trouver était : " + motATrouver);
 				jouer = false;
 			}
 			else{
-				System.out.println("\nDésolé cette lettre ne fait pas partie de ce mot");
-				System.out.println("Nombre d'essais restants : " + (nbEssais-nbErreurs));
+				System.out.println("\nDesole cette lettre ne fait pas partie de ce mot");
+				this.afficher(nbEssais, nbErreurs);
+				System.out.println("Nombre d'essais restants : " + (nbEssais-nbErreurs) + "\n");
 			}
 			
 		}
 		
 		else {
 			if(!this.gagne()) {//si on a pas gagné la partie on affiche qu'on a trouvé une lettre seulement 
-				System.out.println("\nBravo ! Vous avez trouvé une lettre !");
-				System.out.println("Nombre d'essais restants : " + (nbEssais-nbErreurs));
+				System.out.println("");
+				System.out.println("\nBravo ! Vous avez trouve une lettre !");
+				this.afficher(nbEssais, nbErreurs);
+				System.out.println("Nombre d'essais restants : " + (nbEssais-nbErreurs) + "\n");
 			}
 			else {//sinon on affiche qu'on a gagné la partie
-				System.out.println("\nGAGNE ! Vous avez trouvé le mot !");
-				System.out.println(motATrouver);
+				System.out.println("\nGAGNE ! Vous avez trouve le mot !" + motATrouver);
+				Jeu.score++;
 				jouer = false;
 			}
 		}
@@ -320,7 +322,7 @@ public class RegleDuJeu {
 			}
 		}catch(FileNotFoundException e){
 			e.printStackTrace();
-			System.err.println("Fichier non trouvé");
+			System.err.println("Fichier non trouve");
 		}catch(IOException e){
 			System.err.println("Erreur acces fichier");
 			e.printStackTrace();
@@ -343,11 +345,11 @@ public class RegleDuJeu {
 	 */
 	public static int nbEssaisAutorises(String motATrouver) {
 				if(motATrouver.length() <= 5)
-					nbEssais = 5;
+					nbEssais = 4;
 				else if(motATrouver.length() > 5 && motATrouver.length() <= 9)
-					nbEssais = 7;
+					nbEssais = 5;
 				else if(motATrouver.length() > 9)
-					nbEssais = 10;
+					nbEssais = 6;
 				return nbEssais;
 	}
 	
@@ -363,7 +365,7 @@ public class RegleDuJeu {
 		if(!lettresProp.isEmpty()) {
 			while(it.hasNext()) {
 				if(it.next() == lettre) {
-					System.err.println("Vous avez déjà testé cette lettre, veuillez en saisir une autre");
+					System.err.println("Vous avez deja teste cette lettre, veuillez en saisir une autre");
 					return true;
 				}
 			}
